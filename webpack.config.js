@@ -1,9 +1,11 @@
 const webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
     entry: './public/scripts/index.js',
     output: {
-        path: './public/bin',
+        path: path.resolve(__dirname, "public/bin"),
+        publicPath: "bin",
         filename: 'index.bundle.js'
     },
     module: {

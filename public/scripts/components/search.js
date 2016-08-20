@@ -8,6 +8,7 @@ export default class Search extends Component {
         this.state = {
             query: '',
             data: [],
+            isLoading: false,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,16 +34,33 @@ export default class Search extends Component {
     }
 
     fetchData(query) {
+
+        this.setState({ isLoading: true });
         fetch(`http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${query}&api_key=6fc8076bbe3f25f01f46f776721ce1f3&format=json`)
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({
                     data: responseData.results.artistmatches.artist,
-                }, () => console.log(this.state.data));
+                    isLoading: false,
+                });
             });
     }
 
     render() {
+        var content = null;
+        if (this.state.isLoading)
+            content = <i className="fa fa-spinner fa-pulse fa-3x fa-fw" style={{ color: 'rgba(255, 255, 255, 0.87)' }}></i>
+        else
+            content = (
+                this.state.data.map((item, index) => {
+                    let avaLink = item.image[2]['#text'];
+                    if (avaLink === "")
+                        avaLink = '../res/unknown.png';
+
+                    return <SearchResultItem avatar={avaLink} artist={item.name} key={index}/>
+                })
+            )
+
         return (
             <div className="search">
                 <form className="search-box" onSubmit={this.handleSubmit}>
@@ -56,13 +74,7 @@ export default class Search extends Component {
                 </form>
 
                 <div className="search-result" id="search-result">
-                    {this.state.data.map((item, index) => {
-                        let avaLink = item.image[2]['#text'];
-                        if (avaLink === "")
-                            avaLink = '../res/unknown.png';
-
-                        return <SearchResultItem avatar={avaLink} artist={item.name} key={index}/>
-                    }) }
+                    {content}
                 </div>
             </div>
         );

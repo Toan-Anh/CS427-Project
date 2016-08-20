@@ -4,11 +4,16 @@ export default class SearchResultItem extends Component {
 
     constructor(props) {
         super(props);
+        this.onItemClick = this.onItemClick.bind(this);
+    }
+
+    onItemClick() {
+        alert(`${this.props.artist}`);
     }
 
     render() {
         return (
-            <div className="search-result-item">
+            <div className="search-result-item" onClick={this.onItemClick}>
                 <img src={this.props.avatar} className="avatar" />
                 <p className="artist-name">{this.props.artist}</p>
             </div>
