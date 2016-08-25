@@ -1,10 +1,31 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
 body {
-  background: #242424;
-  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.7;
-  margin: 0;
-  padding: 0px;
+    background: #242424;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-fluid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.row {
+    flex: 1;
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
 }
 
 a {
@@ -79,15 +100,43 @@ ul {
 }
 
 .control-pane {
-    position: fixed;
+    /*position: fixed;
     top: 48px;
     left: 0;
-    bottom: 0;
-    width: 25%;
+    bottom: 0;*/
+    /*height: 100%;*/
+    /*width: 25%;*/
     min-width: 360px; 
-    background: #303030;
+    background: #363636;
     padding: 32;
+    align-self: stretch;
+    padding-left: 16px;
+    padding-right: 16px;
+    flex: 1;
 }
+
+.fdg-layout {
+    /*position: fixed;
+    top: 48px;
+    right: 0;
+    bottom: 0;*/
+    flex: 3;
+    align-self: stretch;
+    padding: 32;
+    overflow: hidden;
+}
+
+
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
 
 .search-box {
     display: flex;
@@ -184,4 +233,15 @@ ul {
     overflow: hidden;
     -webkit-line-clamp: 2; /* number of lines to show */
     -webkit-box-orient: vertical;
+}
+
+/* SVG styling */
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 2px;
 }

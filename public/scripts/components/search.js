@@ -1,5 +1,6 @@
 import SearchResultItem from './search-result';
 import React, {Component} from 'react';
+import Api from './lastfm-api';
 
 export default class Search extends Component {
 
@@ -34,22 +35,33 @@ export default class Search extends Component {
     }
 
     fetchData(query) {
-
         this.setState({ isLoading: true });
-        fetch(`http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${query}&api_key=6fc8076bbe3f25f01f46f776721ce1f3&format=json`)
+        fetch(Api.artist_search(this.state.query))
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({
                     data: responseData.results.artistmatches.artist,
                     isLoading: false,
                 });
-            });
+            })
+            .catch((error) => alert(error));
     }
 
     render() {
         var content = null;
         if (this.state.isLoading)
-            content = <i className="fa fa-spinner fa-pulse fa-3x fa-fw" style={{ color: 'rgba(255, 255, 255, 0.87)' }}></i>
+            content = (
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                    width: '100%',
+                    padding: '16px',
+                }}>
+                    <i className="fa fa-spinner fa-pulse fa-3x fa-fw" style={{ color: 'rgba(255, 255, 255, 0.87)' }}></i>
+                </div>
+            );
         else
             content = (
                 this.state.data.map((item, index) => {
@@ -57,7 +69,7 @@ export default class Search extends Component {
                     if (avaLink === "")
                         avaLink = '../res/unknown.png';
 
-                    return <SearchResultItem avatar={avaLink} artist={item.name} key={index}/>
+                    return <SearchResultItem avatar={avaLink} artist={item.name} mbid={item.mbid} key={index}/>
                 })
             )
 

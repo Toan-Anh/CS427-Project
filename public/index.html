@@ -17,6 +17,7 @@
     <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
     <!--<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
     <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>-->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 
     <script src="./scripts/lib/react.min.js"></script>
     <script src="./scripts/lib/react-dom.min.js"></script>
@@ -28,27 +29,20 @@
     <div class="nav-bar">
         <p class="title">Data Visualization</p>
 
-        <a href="https://www.last.fm" width="100px" style="margin-right: 24px; display: flex; align-items: center">
+        <a href="https://www.last.fm" width="100px" style="margin-right: 24px; display: flex; align-items: center" target="_blank">
             <img src="./res/Last.fm_Logo_White.png" width="100px" />
         </a>
     </div>
 
     <!-- Content -->
-    <div class="container" id="content">
+    <div class="container-fluid" id="content">
         <div class="row">
-            <div class="col-md-3 control-pane" id="control-pane">
-                <!-- Search box -->
-                <!--<div class="search-box">
-                    <i class="fa fa-search search-icon"></i>
-                    <input type="text" class="form-control search-input" placeholder="Artist name..." />
-                </div>-->
-
-                <!-- Search results -->
-                <!--<div class="search-result" id="search-result">
-                </div>-->
+            <div class="control-pane" id="control-pane">
             </div>
 
-            <div class="col-md-8">
+            <div class="fdg-layout" id="FDG Layout">
+                <svg class="chart" width="420" height="120">
+                </svg>
             </div>
         </div>
     </div>
