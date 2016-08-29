@@ -88,6 +88,8 @@ export default class Search extends Component {
                 <div className="search-result" id="search-result">
                     {content}
                 </div>
+                <div className="word-cloud" id="word-cloud-content">
+                </div>
             </div>
         );
     }

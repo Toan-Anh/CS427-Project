@@ -25,5 +25,8 @@ module.exports = {
                 comments: false,
             },
         }),
-    ]
+    ],
+    node: {
+        fs: "empty"
+    }
 };
