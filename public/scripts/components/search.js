@@ -74,7 +74,7 @@ export default class Search extends Component {
             )
 
         return (
-            <div className="search">
+            <div className="search" style={{ flex: 1, alignSelf: "stretch", display: "flex", flexDirection: "column" }}>
                 <form className="search-box" onSubmit={this.handleSubmit}>
                     <i className="fa fa-search search-icon"></i>
                     <input
@@ -87,6 +87,9 @@ export default class Search extends Component {
 
                 <div className="search-result" id="search-result">
                     {content}
+                </div>
+
+                <div className="word-cloud" id="word-cloud-content">
                 </div>
             </div>
         );
