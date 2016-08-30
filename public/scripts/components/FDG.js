@@ -2,43 +2,46 @@
 
 class FDG {
     render(data) {
+        netClustering.cluster(data.vertices, data.edges);
+        console.log(data.vertices);
+
         console.log(document.getElementById('FDG Layout').clientWidth);
         console.log(document.getElementById('FDG Layout').clientHeight);
 
-        var svg = d3.select("svg"),
+        var svg = d3.select("#artist-graph"),
             width = document.getElementById('FDG Layout').clientWidth,
             height = document.getElementById('FDG Layout').clientHeight;
 
         svg.attr('width', () => `${width}px`)
             .attr('height', () => `${height}px`);
 
-        d3.selectAll("svg > *").remove();
+        d3.selectAll("#artist-graph > *").remove();
 
         var color = d3.scaleOrdinal(d3.schemeCategory20);
         var simulation = d3.forceSimulation()
             .force("forceX", d3.forceX().x(width / 2)
-                .strength((d) => { return (d.connection / data.maxConnection) === 1 ? 0.3 : 0 }))
+                .strength((d) => { return (d.value / data.maxValue) === 1 ? 0.3 : 0.01 }))
             .force("forceY", d3.forceY().y(height / 2)
-                .strength((d) => { return (d.connection / data.maxConnection) === 1 ? 0.3 : 0 }))
+                .strength((d) => { return (d.value / data.maxValue) === 1 ? 0.3 : 0.01 }))
             .force("link", d3.forceLink()
-                .id((d) => { return d.id; })
+                // .id((d) => { return d.id; })
                 .distance(100))
-            .force("charge", d3.forceManyBody().strength(-100 + (-100) * (15 / data.vertices.length)))
-            .force("collision", d3.forceCollide().radius((d) => { return d.connection + 15; }));
+            .force("charge", d3.forceManyBody().strength(-100))// + (-100) * (15 / data.vertices.length)))
+            .force("collision", d3.forceCollide().radius((d) => { return d.value + 15; }));
 
         var defs = svg.append('defs')
             .selectAll("pattern")
             .data(data.vertices)
             .enter().append('pattern')
             .attr("id", (d) => d.mbid)
-            .attr("width", (d) => { return 2 * (d.connection + 15); })
-            .attr("height", (d) => { return 2 * (d.connection + 15); })
+            .attr("width", (d) => { return 2 * (d.value + 15); })
+            .attr("height", (d) => { return 2 * (d.value + 15); })
             .attr("patternUnits", "objectBoundingBox");
 
         defs.append("svg:image")
             .attr("xlink:href", (d) => d.image)
-            .attr("width", (d) => { return 2 * (d.connection + 15); })
-            .attr("height", (d) => { return 2 * (d.connection + 15); })
+            .attr("width", (d) => { return 2 * (d.value + 15); })
+            .attr("height", (d) => { return 2 * (d.value + 15); })
             .attr("x", 0)
             .attr("y", 0);
 
@@ -47,16 +50,17 @@ class FDG {
             .selectAll("line")
             .data(data.edges)
             .enter().append("line")
-            .attr("stroke-width", (d) => { return 3 * (d.match); });
+            .attr("stroke-width", (d) => { return 2; });
 
         var node = svg.append("g")
             .attr("class", "nodes")
             .selectAll("circle")
             .data(data.vertices)
             .enter().append("circle")
-            .attr("r", (d) => { return d.connection + 15; })
+            .attr("r", (d) => { return d.value + 15; })
             // .attr("fill", function (d) { return `url(#${d.mbid})`; })
-            .attr("fill", function (d) { return color(Math.floor(Math.random() * 20)); })
+            .attr("fill", function (d) { return color(d.cluster); })
+            .on("mouseenter", onNodeClick)
             .call(d3.drag()
                 .on("start", dragstarted)
                 .on("drag", dragged)
@@ -99,6 +103,10 @@ class FDG {
             if (!d3.event.active) simulation.alphaTarget(0);
             d.fx = null;
             d.fy = null;
+        }
+
+        function onNodeClick(d) {
+            console.log(d);
         }
     }
 }
