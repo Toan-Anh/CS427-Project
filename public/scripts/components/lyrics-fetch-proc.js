@@ -58,10 +58,11 @@ class LyricsHelper {
                             //console.log(that.omitList);
                             let x = xmlParser(xhr.response).root.children[1].content;
                             let x1 = x.match(that.sep);
-                            for (let j = 0; j < x1.length; j++)
-                            {
+                            for (let j = 0; j < x1.length; j++) {
                                 let a = x1[j].toLowerCase();
-                                that.dict[a] ? that.dict[a] += 1 : that.dict[a] = 1;
+                                if (a.length > 1) {
+                                    that.dict[a] ? that.dict[a] += 1 : that.dict[a] = 1;
+                                }
                             }
                             that.count += 1;
                             if (that.count === that.nTracks) {
