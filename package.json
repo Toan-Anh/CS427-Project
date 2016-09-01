@@ -10,8 +10,11 @@
     "d3-cloud": "^1.2.1",
     "d3-dispatch": "^1.0.1",
     "express": "^4.4.5",
+    "lyric-get": "^1.0.3",
+    "node-lyrics": "^1.0.0",
     "react": "^15.3.0",
-    "react-dom": "^15.3.0"
+    "react-dom": "^15.3.0",
+    "xml-parser": "^1.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.13.2",
