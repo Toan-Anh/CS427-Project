@@ -6,10 +6,10 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.4.3",
-    "canvas": "^1.4.0",
     "d3-cloud": "^1.2.1",
     "d3-dispatch": "^1.0.1",
     "express": "^4.4.5",
+    "json-loader": "^0.5.4",
     "react": "^15.3.0",
     "react-dom": "^15.3.0"
   },

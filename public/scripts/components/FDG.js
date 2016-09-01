@@ -60,7 +60,9 @@ class FDG {
             .attr("r", (d) => { return d.value + 15; })
             // .attr("fill", function (d) { return `url(#${d.mbid})`; })
             .attr("fill", function (d) { return color(d.cluster); })
-            .on("mouseenter", onNodeClick)
+            .attr('class', (d) => `group-${d.cluster}`)
+            .on("click", onNodeClick)
+            .on("mouseenter", onNodeEnter)
             .call(d3.drag()
                 .on("start", dragstarted)
                 .on("drag", dragged)
@@ -107,6 +109,13 @@ class FDG {
 
         function onNodeClick(d) {
             console.log(d);
+            d3.selectAll(`.group-${d.cluster}`)
+            .transition().duration(200)
+            .style("fill", function (di) { return `url(#${di.mbid})`; });
+        }
+
+        function onNodeEnter(d) {
+            // console.log(d);
         }
     }
 }
