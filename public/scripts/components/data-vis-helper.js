@@ -9,7 +9,7 @@ export default class DVHelper {
         this.data = {
             vertices: [],
             edges: [],
-            maxConnection: 0,
+            maxValue: 0,
         }
 
         this.max = 0;
@@ -17,15 +17,16 @@ export default class DVHelper {
         for (let i = 0; i < MAX_DEPTH; ++i) {
             this.max += Math.pow(N_SIMILAR, i);
         }
-        this.tmp = {};
+        this.tmpVertices = {};
+        this.tmpEdges = {};
         this.onDone = null;
     }
 
     initialize(artist, callback) {
         this.clearData();
         this.onDone = callback;
-        this.tmp[artist.name] = {
-            connection: 0,
+        this.tmpVertices[artist.name] = {
+            value: 0,
             image: artist.image,
             mbid: artist.mbid
         };
@@ -63,13 +64,22 @@ export default class DVHelper {
     }
 
     finalize() {
-        this.data.vertices = Object.keys(this.tmp).map((key, index) => {
+        this.data.vertices = Object.keys(this.tmpVertices).map((key, index) => {
+            this.tmpVertices[key]['index'] = index;
             return {
                 id: key,
-                connection: this.tmp[key].connection,
-                image: this.tmp[key].image,
-                mbid: this.tmp[key].mbid,
+                value: this.tmpVertices[key].value,
+                image: this.tmpVertices[key].image,
+                mbid: this.tmpVertices[key].mbid,
             }
+        });
+
+        this.data.edges = Object.keys(this.tmpEdges).map((key) => {
+            return {
+                source: this.tmpVertices[this.tmpEdges[key].source].index,
+                target: this.tmpVertices[this.tmpEdges[key].target].index,
+                value: this.tmpEdges[key].value,
+            };
         });
         console.log("Done");
         if (this.onDone)
@@ -77,34 +87,47 @@ export default class DVHelper {
     }
 
     addData(source, target) {
-        this.data.edges.push({
-            source: source.name,
-            target: target.name,
-            match: parseFloat(target.match),
-        });
+        // this.data.edges.push({
+        //     source: source.name,
+        //     target: target.name,
+        //     match: parseFloat(target.match),
+        // });
 
-        this.tmp[source.name].connection += 1;
 
-        if (!this.tmp[target.name]) {
-            this.tmp[target.name] = {
-                connection: 1,
+        if (!this.tmpEdges[source.mbid + target.mbid]) {
+            this.tmpEdges[source.mbid + target.mbid] = {
+                source: source.name,
+                target: target.name,
+                // match: parseFloat(target.match),
+                value: 2,
+            }
+        }
+        else {
+            this.tmpEdges[source.mbid + target.mbid].value += 2;
+        }
+
+        this.tmpVertices[source.name].value += 1;
+
+        if (!this.tmpVertices[target.name]) {
+            this.tmpVertices[target.name] = {
+                value: 1,
                 image: target.image[2]['#text'],
                 mbid: target.mbid,
             };
         }
         else {
-            this.tmp[target.name].connection += 1;
+            this.tmpVertices[target.name].value += 1;
         }
-        
-        var max = Math.max(this.tmp[source.name].connection, this.tmp[target.name].connection)
-        this.data.maxConnection = Math.max(this.data.maxConnection, max);
+
+        var max = Math.max(this.tmpVertices[source.name].value, this.tmpVertices[target.name].value)
+        this.data.maxValue = Math.max(this.data.maxValue, max);
     }
 
     clearData() {
         this.data = {
             vertices: [],
             edges: [],
-            maxConnection: 0,
+            maxValue: 0,
         };
     }
 }
