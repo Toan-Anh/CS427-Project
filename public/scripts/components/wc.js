@@ -20,6 +20,8 @@ var draw = function (words) {
         .start();
 
     function renderWordCloud() {
+        d3.selectAll(".word-cloud > *").remove();
+
         d3.select(".word-cloud").append("svg")
             .attr("width", width)
             .attr("height", height)

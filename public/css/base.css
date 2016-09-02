@@ -121,8 +121,8 @@ ul {
 .word-cloud {
     flex: 1;
     align-self: stretch;
-    margin-top: 16px;
-    margin-bottom: 16px;
+    /*margin-top: 16px;
+    margin-bottom: 16px;*/
 }
 
 .fdg-layout {

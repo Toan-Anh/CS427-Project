@@ -1,12 +1,15 @@
 'use strict'
+import LyricsHelper from './lyrics-fetch-proc';
 
 class FDG {
     render(data) {
         netClustering.cluster(data.vertices, data.edges);
-        console.log(data.vertices);
+        // console.log(data.vertices);
 
-        console.log(document.getElementById('FDG Layout').clientWidth);
-        console.log(document.getElementById('FDG Layout').clientHeight);
+        // console.log(document.getElementById('FDG Layout').clientWidth);
+        // console.log(document.getElementById('FDG Layout').clientHeight);
+
+        var maxCluster = 0;
 
         var svg = d3.select("#artist-graph"),
             width = document.getElementById('FDG Layout').clientWidth,
@@ -34,8 +37,8 @@ class FDG {
             .data(data.vertices)
             .enter().append('pattern')
             .attr("id", (d) => d.mbid)
-            .attr("width", (d) => { return 2 * (d.value + 15); })
-            .attr("height", (d) => { return 2 * (d.value + 15); })
+            .attr("width", 1)
+            .attr("height", 1)
             .attr("patternUnits", "objectBoundingBox");
 
         defs.append("svg:image")
@@ -59,7 +62,7 @@ class FDG {
             .enter().append("circle")
             .attr("r", (d) => { return d.value + 15; })
             // .attr("fill", function (d) { return `url(#${d.mbid})`; })
-            .attr("fill", function (d) { return color(d.cluster); })
+            .attr("fill", function (d) { maxCluster = Math.max(maxCluster, d.cluster); return color(d.cluster); })
             .attr('class', (d) => `group-${d.cluster}`)
             .on("click", onNodeClick)
             .on("mouseenter", onNodeEnter)
@@ -108,14 +111,21 @@ class FDG {
         }
 
         function onNodeClick(d) {
-            console.log(d);
-            d3.selectAll(`.group-${d.cluster}`)
-            .transition().duration(200)
-            .style("fill", function (di) { return `url(#${di.mbid})`; });
+            console.log(`Getting lyrics of ${d.id}`);
+            LyricsHelper.getLyrics(d.id, d.mbid);
         }
 
         function onNodeEnter(d) {
             // console.log(d);
+            for (let i = 0; i <= maxCluster; ++i) {
+                d3.selectAll(`.group-${i}`)
+                    .transition().duration(200)
+                    .style("fill", function (dtmp) { return color(dtmp.cluster) });
+            }
+
+            d3.selectAll(`.group-${d.cluster}`)
+                .transition().duration(200)
+                .style("fill", function (di) { return `url(#${di.mbid})`; });
         }
     }
 }
