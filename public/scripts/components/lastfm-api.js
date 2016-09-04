@@ -13,6 +13,7 @@ export default {
     artist_getSimilar(name, mbid = null) {
         return `${ROOT_URL}?method=artist.getsimilar&artist=${name}&mbid=${mbid ? mbid : ''}&api_key=${API_KEY}&format=json`;
     },
+    
     artist_getTopTracks(name, mbid = null) {
         return `${ROOT_URL}?method=artist.gettoptracks&artist=${name}&mbid=${mbid ? mbid : ''}&api_key=${API_KEY}&format=json`;
     }

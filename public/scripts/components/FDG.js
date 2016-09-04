@@ -1,5 +1,6 @@
 'use strict'
-import LyricsHelper from './lyrics-fetch-proc';
+import LyricsHelper from './lyrics-helper';
+import draw from './wc';
 
 class FDG {
     render(data) {
@@ -112,7 +113,11 @@ class FDG {
 
         function onNodeClick(d) {
             console.log(`Getting lyrics of ${d.id}`);
-            LyricsHelper.getLyrics(d.id, d.mbid);
+            // LyricsHelper.getLyrics(d.id, d.mbid);
+            LyricsHelper.getTopTracksLyrics(d.id, d.mbid, (lyricsData) => {
+                console.log(lyricsData);
+                draw(lyricsData);
+            });
         }
 
         function onNodeEnter(d) {
