@@ -37,7 +37,7 @@ class FDG {
             .selectAll("pattern")
             .data(data.vertices)
             .enter().append('pattern')
-            .attr("id", (d) => d.mbid)
+            .attr("id", (d) => d.id.replace(/\s/g, '-'))
             .attr("width", 1)
             .attr("height", 1)
             .attr("patternUnits", "objectBoundingBox");
@@ -130,7 +130,7 @@ class FDG {
 
             d3.selectAll(`.group-${d.cluster}`)
                 .transition().duration(200)
-                .style("fill", function (di) { return `url(#${di.mbid})`; });
+                .style("fill", function (di) { return `url(#${di.id.replace(/\s/g, '-')})`; });
         }
     }
 }
