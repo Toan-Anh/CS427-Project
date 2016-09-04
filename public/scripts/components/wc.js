@@ -7,7 +7,7 @@ var draw = function (words) {
     var width = document.getElementById('word-cloud-content').clientWidth;
     var height = document.getElementById('word-cloud-content').clientHeight;
     var color = d3.scaleLinear()
-        .domain([0, 1, 10, 20, 30, 50, 60, 70, 80, 90, 100])
+        .domain([0, 1, 2, 10, 20, 30, 40, 70, 80, 90, 100])
         .range(["#ffffff", "#95a5a6","#bdc3c7", "#ecf0f1", "#e74c3c", "#e67e22", "#f1c40f", "#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e"]);
 
     cloud().size([width, height])
