@@ -4,7 +4,7 @@ import draw from './wc';
 class LyricsHelper {
 
     constructor() {
-        this.wordsLimit = 500;
+        this.wordsLimit = 100;
         this.nTracks = 10;
         this.count = 0;
         this.lyrics = '';
@@ -89,7 +89,7 @@ class LyricsHelper {
         let tmp = {};
         let maxCount = 0;
 
-        words.slice(0, this.wordsLimit).forEach((word) => {
+        words.forEach((word) => {
             let term = this.stopWords.test(word) ? null : word;
 
             if (term) {
@@ -105,6 +105,8 @@ class LyricsHelper {
                 size: Math.ceil((tmp[term]) * (100 / maxCount) + 16),
             }
         });
+
+        this.data = this.data.sort((lhs, rhs) => rhs.size - lhs.size).slice(0, this.wordsLimit);
 
         this.onDone(this.data);
     }

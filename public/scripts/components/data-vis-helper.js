@@ -60,7 +60,12 @@ export default class DVHelper {
                 if (this.count === this.max)
                     this.finalize();
             })
-            .catch((error) => alert(error));
+            .catch((error) => {
+                alert(error);
+                this.count += 1;
+                if (this.count === this.max)
+                    this.finalize();
+            });
     }
 
     finalize() {

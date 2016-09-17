@@ -112,7 +112,7 @@ class FDG {
         }
 
         function onNodeClick(d) {
-            console.log(`Getting lyrics of ${d.id}`);
+            alert(`Getting lyrics of ${d.id}`);
             // LyricsHelper.getLyrics(d.id, d.mbid);
             LyricsHelper.getTopTracksLyrics(d.id, d.mbid, (lyricsData) => {
                 console.log(lyricsData);
