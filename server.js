@@ -20,10 +20,10 @@ app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Additional middleware which will set headers that we need on each request.
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     // Set permissive CORS header - this allows this server to be used only as
     // an API server in conjunction with something like webpack-dev-server.
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,6 +33,21 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.listen(app.get('port'), function() {
-  console.log('Server started: http://localhost:' + app.get('port') + '/');
+
+
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const config = require('./webpack.config.js');
+const compiler = webpack(config);
+
+app.use(webpackHotMiddleware(compiler));
+app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+}));
+
+
+app.listen(app.get('port'), function () {
+    console.log('Server started: http://localhost:' + app.get('port') + '/');
 });
