@@ -58,7 +58,7 @@ class LyricsHelper {
     }
 
     _getLyrics(artist, track) {
-        let url = `http://cors.io/?u=https://lyrics.wikia.com/wiki/${artist.replace(/\s/g, '_')}:${track.replace(/\s/g, '_')}`;
+        let url = `https://crossorigin.me/https://lyrics.wikia.com/wiki/${artist.replace(/\s/g, '_')}:${track.replace(/\s/g, '_')}`;
         fetch(encodeURI(url))
             .then(response => response.text())
             .then(text => {

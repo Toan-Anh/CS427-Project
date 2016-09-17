@@ -1,4 +1,4 @@
-const ROOT_URL = 'http://ws.audioscrobbler.com/2.0/';
+const ROOT_URL = 'https://ws.audioscrobbler.com/2.0/';
 const API_KEY = '6fc8076bbe3f25f01f46f776721ce1f3';
 
 export default {
