@@ -102,7 +102,7 @@ class LyricsHelper {
         this.data = Object.keys(tmp).map((term) => {
             return {
                 text: term,
-                size: Math.ceil((tmp[term]) * (100 / maxCount) + 16),
+                size: Math.ceil((tmp[term]) * (50 / maxCount) + 16),
             }
         });
 
